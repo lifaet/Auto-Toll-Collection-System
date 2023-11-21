@@ -1,29 +1,31 @@
-// connect buzzer pins to GND and D6
-// connect ir-sensor-1 pins to GND, 5v and A2
-// connect ir-sensor-2 pins to GND, 5v and A3
-// connect servo pins to GND, 5v and D8
-// Connect by following for RFID pins: 
-// SDA to D10
-// SCK to D13
-// MOSI to D11
-// MISO to D12
-// GND to GND
-// RST to D9
-// 3.3V to 3.3V
+/*
+#Circuit Connection
+connect buzzer pins to GND and D6
+connect ir-sensor-1 pins to GND, 5v and A2
+connect ir-sensor-2 pins to GND, 5v and A3
+connect servo pins to GND, 5v and D8
+Connect by following for RFID pins: 
+SDA to D10
+SCK to D13
+MOSI to D11
+MISO to D12
+GND to GND
+RST to D9
+3.3V to 3.3V
+*/
 
 #include <SPI.h>
 #include <Servo.h>
 #include <MFRC522.h>
-Servo servo;
-int servoPos = 0;
-int senVal1 = 0;
-int senVal2 = 0;
-int state = 0;
 #define buzzerPin 6
 #define sensorPin1 A2
 #define sensorPin2 A3
 #define RST_PIN 9
 #define SS_PIN 10
+Servo servo;
+int senVal1 = 0;
+int senVal2 = 0;
+int state = 0;
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 void setup() {
@@ -40,15 +42,15 @@ void setup() {
 }
 
 void loop() {
-  sensorRead();
-  rfid();
+  readIR();
+  readRfid();
   if (senVal1 == 0) {
     servoDown();
-    Serial.println("Vehicle Detected. Swipe you Card..");
+    Serial.println("Vehicle Detected. Swipe you card..");
     delay(1000);
   } else if (senVal2 == 0 && state == 1) {
     servoUp();
-    Serial.println("Have a safe Journey");
+    Serial.println("Have a safe Journey *_*");
     delay(1000);
     state = 0;
   } else if (senVal2 == 0 && state == 0) {
@@ -66,12 +68,12 @@ void servoUp() {
   servo.write(180);
 }
 
-void sensorRead() {
+void readIR() {
   senVal1 = digitalRead(sensorPin1);
   senVal2 = digitalRead(sensorPin2);
 }
 
-void rfid() {
+void readRfid() {
   if (!mfrc522.PICC_IsNewCardPresent()) {
     return;
   }
@@ -98,6 +100,6 @@ void accessDenied() {
   servo.write(90);
   Serial.println("Access denied");
   digitalWrite(buzzerPin, HIGH);
-  delay(1000);
+  delay(1500);
   digitalWrite(buzzerPin, LOW);
 }
