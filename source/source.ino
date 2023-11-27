@@ -46,16 +46,15 @@ void setup() {
   lcd.print("    Welcome    ");
   delay(1500);
   lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("   Automatic   ");
-  lcd.setCursor(0, 1);
-  lcd.print("Toll Collection");
-  delay(1500);
-  lcd.clear();
   delay(1000);
 }
 
 void loop() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("   Automatic   ");
+  lcd.setCursor(0, 1);
+  lcd.print("Toll Collection");
   readIR();
   readRfid();
   if (senVal1 == 0) {
