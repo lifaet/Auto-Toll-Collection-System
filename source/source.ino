@@ -44,7 +44,7 @@ void setup() {
   lcd.backlight();
   lcd.setCursor(0, 0);
   lcd.print("    Welcome    ");
-  delay(1500);
+  delay(2000);
   lcd.clear();
   delay(1000);
 }
@@ -70,7 +70,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 1);
     lcd.print("  Safe Journery  ");
-    delay(1500);
+    delay(2000);
     lcd.clear();
     state = 0;
   } else if (senVal2 == 0 && state == 0) {
@@ -139,6 +139,6 @@ void accessDenied() {
   lcd.setCursor(0, 1);
   lcd.print(" Access denied ");
   digitalWrite(buzzerPin, HIGH);
-  delay(1500);
+  delay(2000);
   digitalWrite(buzzerPin, LOW);
 }
