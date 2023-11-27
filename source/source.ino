@@ -70,7 +70,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 1);
     lcd.print("  Safe Journery  ");
-    delay(2000);
+    delay(3000);
     lcd.clear();
     state = 0;
   } else if (senVal2 == 0 && state == 0) {
