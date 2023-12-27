@@ -21,6 +21,7 @@ RST to D9
 #define buzzerPin 6
 #define sensorPin1 A2
 #define sensorPin2 A3
+#define servoPin 8
 #define RST_PIN 9
 #define SS_PIN 10
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -33,7 +34,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 void setup() {
   Serial.begin(9600);
-  servo.attach(8);
+  servo.attach(servoPin);
   servo.write(180);
   pinMode(buzzerPin, OUTPUT);
   pinMode(sensorPin1, INPUT);
@@ -80,11 +81,11 @@ void loop() {
 }
 
 void servoDown() {
-  servo.attach(8);
+  servo.attach(servoPin);
   servo.write(90);
 }
 void servoUp() {
-  servo.attach(8);
+  servo.attach(servoPin);
   servo.write(180);
 }
 
@@ -121,7 +122,7 @@ void readRfid() {
 }
 
 void accessDenied() {
-  servo.attach(8);
+  servo.attach(servoPin);
   servo.write(90);
   Serial.println("Access denied");
   lcd.clear();
