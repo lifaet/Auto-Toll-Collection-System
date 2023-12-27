@@ -28,6 +28,7 @@ Servo servo;
 int senVal1 = 0;
 int senVal2 = 0;
 int state = 0;
+String tollPaidIDs[] = { "B0 54 95 32", "A9 9C 09 BA", "92 CA BA 1D", "7C D0 8F 81" };
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 void setup() {
@@ -82,7 +83,6 @@ void servoDown() {
   servo.attach(8);
   servo.write(90);
 }
-
 void servoUp() {
   servo.attach(8);
   servo.write(180);
@@ -106,29 +106,18 @@ void readRfid() {
     content.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
   content.toUpperCase();
-  if (content.substring(1) == "B0 54 95 32") {
-    lcd.clear();
-    lcd.setCursor(0, 1);
-    lcd.print("   Toll Paid   ");
-    state = 1;
-  } else if (content.substring(1) == "A9 9C 09 BA") {
-    lcd.clear();
-    lcd.setCursor(0, 1);
-    lcd.print("   Toll Paid   ");
-    state = 1;
-  } else if (content.substring(1) == "92 CA BA 1D") {
-    lcd.clear();
-    lcd.setCursor(0, 1);
-    lcd.print("   Toll Paid   ");
-    state = 1;
-  } else if (content.substring(1) == "7C D0 8F 81") {
-    lcd.clear();
-    lcd.setCursor(0, 1);
-    lcd.print("   Toll Paid   ");
-    state = 1;
-  } else {
-    accessDenied();
+
+  int numIDs = sizeof(tollPaidIDs) / sizeof(tollPaidIDs[0]);
+  for (int i = 0; i < numIDs; i++) {
+    if (content.substring(1) == tollPaidIDs[i]) {
+      lcd.clear();
+      lcd.setCursor(0, 1);
+      lcd.print("   Toll Paid   ");
+      state = 1;
+      return;
+    }
   }
+  accessDenied();
 }
 
 void accessDenied() {
