@@ -18,19 +18,19 @@ RST to D9
 #include <Servo.h>
 #include <MFRC522.h>
 #include <LiquidCrystal_I2C.h>
-#define buzzerPin 6
 #define sensorPin1 A2
 #define sensorPin2 A3
+#define buzzerPin 6
 #define servoPin 8
 #define RST_PIN 9
 #define SS_PIN 10
-LiquidCrystal_I2C lcd(0x27, 16, 2);
-Servo servo;
 int senVal1 = 0;
 int senVal2 = 0;
 int state = 0;
 String tollPaidIDs[] = { "B0 54 95 32", "A9 9C 09 BA", "92 CA BA 1D", "7C D0 8F 81" };
+Servo servo;
 MFRC522 mfrc522(SS_PIN, RST_PIN);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 void setup() {
   Serial.begin(9600);
@@ -48,15 +48,14 @@ void setup() {
   lcd.print("    Welcome    ");
   delay(2000);
   lcd.clear();
-  delay(1000);
-}
-
-void loop() {
-  lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("   Automatic   ");
   lcd.setCursor(0, 1);
   lcd.print("Toll Collection");
+  delay(1000);
+}
+
+void loop() {
   readIR();
   readRfid();
   if (senVal1 == 0) {
