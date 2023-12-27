@@ -46,13 +46,13 @@ void setup() {
   lcd.backlight();
   lcd.setCursor(0, 0);
   lcd.print("    Welcome    ");
-  delay(2000);
+  delay(1500);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("   Automatic   ");
   lcd.setCursor(0, 1);
   lcd.print("Toll Collection");
-  delay(1000);
+  delay(1500);
 }
 
 void loop() {
@@ -64,7 +64,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 1);
     lcd.print("Vehicle Detected");
-    delay(1000);
+    delay(1500);
   } else if (senVal2 == 0 && state == 1) {
     servoUp();
     Serial.println("Have a safe Journey *_*");
@@ -128,6 +128,6 @@ void accessDenied() {
   lcd.setCursor(0, 1);
   lcd.print(" Access denied ");
   digitalWrite(buzzerPin, HIGH);
-  delay(2000);
+  delay(1500);
   digitalWrite(buzzerPin, LOW);
 }
