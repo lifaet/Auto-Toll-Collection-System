@@ -108,7 +108,6 @@ void accessDenied() {
   digitalWrite(buzzerPin, LOW);
 }
 void readRfid() {
-
   if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) return;
   String content = "";
   for (byte i = 0; i < mfrc522.uid.size; i++) {
@@ -116,7 +115,7 @@ void readRfid() {
     content += String(mfrc522.uid.uidByte[i], HEX);
   }
   content.toUpperCase();
-  
+
   int numIDs = sizeof(tollPaidIDs) / sizeof(tollPaidIDs[0]);
   for (int i = 0; i < numIDs; i++) {
     if (content.substring(1) == tollPaidIDs[i]) {
