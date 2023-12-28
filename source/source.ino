@@ -58,13 +58,19 @@ void setup() {
 void loop() {
   readIR();
   readRfid();
+
   if (senVal1 == 0) {
     servoDown();
-    Serial.println("Vehicle Detected. Swipe you card..");
+    Serial.println("Vehicle Detected. Swipe your card..");
     lcd.clear();
     lcd.setCursor(0, 1);
     lcd.print("Vehicle Detected");
+    delay(1000);
+    lcd.clear();
+    lcd.setCursor(0, 1);
+    lcd.print("Swipe Your Card");
     delay(1500);
+
   } else if (senVal2 == 0 && state == 1) {
     servoUp();
     Serial.println("Have a safe Journey *_*");
@@ -121,8 +127,7 @@ void readRfid() {
 }
 
 void accessDenied() {
-  servo.attach(servoPin);
-  servo.write(90);
+  servoDown();
   Serial.println("Access denied");
   lcd.clear();
   lcd.setCursor(0, 1);
