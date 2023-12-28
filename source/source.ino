@@ -75,32 +75,6 @@ void servoUp() {
   servo.attach(servoPin);
   servo.write(180);
 }
-void readRfid() {
-  if (!mfrc522.PICC_IsNewCardPresent()) {
-    return;
-  }
-  if (!mfrc522.PICC_ReadCardSerial()) {
-    return;
-  }
-  String content = "";
-  for (byte i = 0; i < mfrc522.uid.size; i++) {
-    content.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
-    content.concat(String(mfrc522.uid.uidByte[i], HEX));
-  }
-  content.toUpperCase();
-
-  int numIDs = sizeof(tollPaidIDs) / sizeof(tollPaidIDs[0]);
-  for (int i = 0; i < numIDs; i++) {
-    if (content.substring(1) == tollPaidIDs[i]) {
-      lcd.clear();
-      lcd.setCursor(0, 1);
-      lcd.print("   Toll Paid   ");
-      state = 1;
-      return;
-    }
-  }
-  accessDenied();
-}
 void VehicleDetected() {
   servoDown();
   Serial.println("Vehicle Detected. Swipe your card..");
@@ -132,4 +106,30 @@ void accessDenied() {
   digitalWrite(buzzerPin, HIGH);
   delay(1000);
   digitalWrite(buzzerPin, LOW);
+}
+void readRfid() {
+  if (!mfrc522.PICC_IsNewCardPresent()) {
+    return;
+  }
+  if (!mfrc522.PICC_ReadCardSerial()) {
+    return;
+  }
+  String content = "";
+  for (byte i = 0; i < mfrc522.uid.size; i++) {
+    content.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
+    content.concat(String(mfrc522.uid.uidByte[i], HEX));
+  }
+  content.toUpperCase();
+
+  int numIDs = sizeof(tollPaidIDs) / sizeof(tollPaidIDs[0]);
+  for (int i = 0; i < numIDs; i++) {
+    if (content.substring(1) == tollPaidIDs[i]) {
+      lcd.clear();
+      lcd.setCursor(0, 1);
+      lcd.print("   Toll Paid   ");
+      state = 1;
+      return;
+    }
+  }
+  accessDenied();
 }
