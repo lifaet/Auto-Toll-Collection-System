@@ -46,40 +46,22 @@ void setup() {
   lcd.backlight();
   lcd.setCursor(0, 0);
   lcd.print("    Welcome    ");
-  delay(1500);
+  delay(1000);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("   Automatic   ");
   lcd.setCursor(0, 1);
   lcd.print("Toll Collection");
-  delay(1500);
+  delay(1000);
 }
-
 void loop() {
-  readIR();
+  senVal1 = digitalRead(sensorPin1);
+  senVal2 = digitalRead(sensorPin2);
   readRfid();
-
   if (senVal1 == 0) {
-    servoDown();
-    Serial.println("Vehicle Detected. Swipe your card..");
-    lcd.clear();
-    lcd.setCursor(0, 1);
-    lcd.print("Vehicle Detected");
-    delay(1000);
-    lcd.clear();
-    lcd.setCursor(0, 1);
-    lcd.print("Swipe Your Card");
-    delay(1500);
-
+    VehicleDetected();
   } else if (senVal2 == 0 && state == 1) {
-    servoUp();
-    Serial.println("Have a safe Journey *_*");
-    lcd.clear();
-    lcd.setCursor(0, 1);
-    lcd.print("  Safe Journery  ");
-    delay(3000);
-    lcd.clear();
-    state = 0;
+    accessGranted();
   } else if (senVal2 == 0 && state == 0) {
     accessDenied();
   }
@@ -93,12 +75,6 @@ void servoUp() {
   servo.attach(servoPin);
   servo.write(180);
 }
-
-void readIR() {
-  senVal1 = digitalRead(sensorPin1);
-  senVal2 = digitalRead(sensorPin2);
-}
-
 void readRfid() {
   if (!mfrc522.PICC_IsNewCardPresent()) {
     return;
@@ -125,7 +101,28 @@ void readRfid() {
   }
   accessDenied();
 }
-
+void VehicleDetected() {
+  servoDown();
+  Serial.println("Vehicle Detected. Swipe your card..");
+  lcd.clear();
+  lcd.setCursor(0, 1);
+  lcd.print("Vehicle Detected");
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(0, 1);
+  lcd.print("Swipe Your Card");
+  delay(1000);
+}
+void accessGranted() {
+  servoUp();
+  Serial.println("Have a safe Journey *_*");
+  lcd.clear();
+  lcd.setCursor(0, 1);
+  lcd.print("  Safe Journery  ");
+  delay(2000);
+  lcd.clear();
+  state = 0;
+}
 void accessDenied() {
   servoDown();
   Serial.println("Access denied");
@@ -133,6 +130,6 @@ void accessDenied() {
   lcd.setCursor(0, 1);
   lcd.print(" Access denied ");
   digitalWrite(buzzerPin, HIGH);
-  delay(1500);
+  delay(1000);
   digitalWrite(buzzerPin, LOW);
 }
