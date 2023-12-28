@@ -54,6 +54,7 @@ void setup() {
   lcd.print("Toll Collection");
   delay(1000);
 }
+
 void loop() {
   senVal1 = digitalRead(sensorPin1);
   senVal2 = digitalRead(sensorPin2);
@@ -71,10 +72,12 @@ void servoDown() {
   servo.attach(servoPin);
   servo.write(90);
 }
+
 void servoUp() {
   servo.attach(servoPin);
   servo.write(180);
 }
+
 void VehicleDetected() {
   servoDown();
   Serial.println("Vehicle Detected. Swipe your card..");
@@ -87,6 +90,7 @@ void VehicleDetected() {
   lcd.print("Swipe Your Card");
   delay(1000);
 }
+
 void accessGranted() {
   servoUp();
   Serial.println("Have a safe Journey *_*");
@@ -97,6 +101,7 @@ void accessGranted() {
   lcd.clear();
   state = 0;
 }
+
 void accessDenied() {
   servoDown();
   Serial.println("Access denied");
@@ -107,6 +112,7 @@ void accessDenied() {
   delay(1000);
   digitalWrite(buzzerPin, LOW);
 }
+
 void readRfid() {
   if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) return;
   String content = "";
