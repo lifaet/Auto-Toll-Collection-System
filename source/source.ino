@@ -60,7 +60,7 @@ void loop() {
   senVal2 = digitalRead(sensorPin2);
   readRfid();
   if (senVal1 == 0) {
-    VehicleDetected();
+    vehicleDetected();
   } else if (senVal2 == 0 && state == 1) {
     accessGranted();
   } else if (senVal2 == 0 && state == 0) {
@@ -78,7 +78,7 @@ void servoUp() {
   servo.write(180);
 }
 
-void VehicleDetected() {
+void vehicleDetected() {
   servoDown();
   Serial.println("Vehicle Detected. Swipe your card..");
   lcd.clear();
